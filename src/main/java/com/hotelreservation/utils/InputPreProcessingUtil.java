@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.hotelreservation.models.enumeration.CostumerType;
 
@@ -19,8 +21,7 @@ public class InputPreProcessingUtil {
 
 		return separatedString.length == 0 ? null
 				: Arrays.asList(CostumerType.values()).stream()
-						.filter((value) -> value.name().toUpperCase().equals(separatedString[0].toUpperCase()))
-						.findFirst().orElse(null);
+						.filter((value) -> value.name().equalsIgnoreCase(separatedString[0])).findFirst().orElse(null);
 	}
 
 	static public List<LocalDate> extractListOfDays(String input) {
@@ -44,29 +45,29 @@ public class InputPreProcessingUtil {
 	public static LocalDate stringToLocalDate(String stringDate) {
 		Pattern numberPattern = Pattern.compile("\\d+");
 		Matcher numberMatcher = numberPattern.matcher(stringDate);
-
 		Pattern stringPattern = Pattern.compile("[a-zA-Z]+");
 		Matcher stringMatcher = stringPattern.matcher(stringDate);
+		
 		List<String> numbers = new ArrayList<String>();
 		String mounth = stringMatcher.find() ? stringMatcher.group() : null;
 		while (numberMatcher.find()) {
 			numbers.add(numberMatcher.group());
 		}
-		if (stringMatcher.find())
-			System.out.println(stringMatcher.group());
 
 		return LocalDate.of(Integer.valueOf(numbers.get(1)), getMounthIndex(mounth), Integer.valueOf(numbers.get(0)));
 	}
 
 	public static Integer getMounthIndex(String mouth) {
-		String[] mounths = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Oct", "Dec" };
-		Integer index = null;
-		for (int i = 0; i < mounths.length; i++) {
-			if (mounths[i].equals(mouth)) {
-				index = i;
-				break;
-			}
-		}
-		return index+1;
+		String[] mounths = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Set", "Oct", "Nov", "Dec" };
+		OptionalInt index = IntStream.range(0, mounths.length-1)
+				.filter(i -> mouth.equalsIgnoreCase(mounths[i]))
+				.findFirst();
+
+		return index.isPresent() ? index.getAsInt() + 1 : null;
+	}
+	
+	public static String getMounthName(Integer mouth) {
+		String[] mounths = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Set", "Oct", "Nov", "Dec" };
+		return mounths[mouth];
 	}
 }

@@ -16,7 +16,7 @@ import com.hotelreservation.utils.InputPreProcessingUtil;
 
 @RunWith(JUnit4.class)
 public class LakewookServiceTest {
-	private LakewookService lakewookService = ServiceFactory.getLakewookCalculator();
+	private LakewookService lakewookService = ServiceFactory.getLakewookService();
 
 	@Test
 	public void calculatePriceTestShouldReturnRightPrice() {
@@ -32,7 +32,6 @@ public class LakewookServiceTest {
 		for (int i = 0; i < hotels.size(); i++) {
 			assertEquals(hotels.get(i).getCalculatedPrice(), rightPrices[i]);
 		}
-
 	}
 
 	private List<String> getInputs() {

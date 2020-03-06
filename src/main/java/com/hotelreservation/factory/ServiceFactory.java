@@ -7,7 +7,7 @@ import com.hotelreservation.service.impl.RidgewoodService;
 
 public class ServiceFactory {
 
-	public static LakewookService getLakewookCalculator() {
+	public static LakewookService getLakewookService() {
 		return new LakewookService();
 	}
 

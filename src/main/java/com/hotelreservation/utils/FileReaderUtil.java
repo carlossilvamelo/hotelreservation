@@ -11,7 +11,7 @@ public class FileReaderUtil {
 	public static List<String> consumeInputFile() {
 		List<String> inputs = new ArrayList<String>();
 		try {
-			File myObj = new File("C:\\develop\\input.txt");
+			File myObj = new File("C:\\Users\\carlos.henrique.melo\\Documents\\DEVELOP\\desafio TW - CARLOS HENRIQUE DA SILVA MELO\\input.txt");
 			Scanner myReader = new Scanner(myObj);
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();

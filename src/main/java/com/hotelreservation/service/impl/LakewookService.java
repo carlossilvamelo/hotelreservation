@@ -7,6 +7,7 @@ import com.hotelreservation.factory.ModelFactory;
 import com.hotelreservation.models.Hotel;
 import com.hotelreservation.models.enumeration.CostumerType;
 import com.hotelreservation.service.HotelServiceStrategy;
+import com.hotelreservation.utils.DateUtils;
 
 public class LakewookService implements HotelServiceStrategy {
 
@@ -15,7 +16,7 @@ public class LakewookService implements HotelServiceStrategy {
 		Hotel hotel = generateInstance();
 		Double price = 0.0;
 		for (LocalDate date : dates) {
-			if (date.getDayOfWeek().name().equals("SATURDAY") || date.getDayOfWeek().name().equals("SUNDAY")) {
+			if (DateUtils.isWeekend(date)) {
 				price += hotel.getWeekendTaxMap().get(costumerType);
 			}else {
 				price += hotel.getNormalTaxMap().get(costumerType);
