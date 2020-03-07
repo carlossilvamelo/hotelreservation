@@ -40,4 +40,25 @@ public class HotelReservationService implements IHotelReservationService {
 
 	}
 
+	@Override
+	public List<Hotel> calculateBestHotel(List<String> inputs) {
+		List<String> bestHotels = new ArrayList<String>();
+
+		List<Hotel> hotels = new ArrayList<Hotel>();
+		for (String input : inputs) {
+			CostumerType costumerType = InputPreProcessingUtil.extractCostumerType(input);
+			List<LocalDate> dates = InputPreProcessingUtil.extractListOfDays(input);
+		
+			for (HotelServiceStrategy service : hotelServiceList) {
+				hotels.add(service.calculatePrice(costumerType, dates));
+			}
+			if (hotels.isEmpty())
+				throw new RuntimeException("Empty input");
+
+			Collections.sort(hotels, (first, sec) -> first.compareTo(sec));
+
+		}
+		return hotels;
+	}
+
 }
